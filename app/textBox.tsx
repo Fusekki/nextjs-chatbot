@@ -1,8 +1,10 @@
 "use client";
+import React, {
+    useState, useEffect, useRef, ChangeEvent, Dispatch, SetStateAction
+} from 'react';
+import { Blurp, BlurpSenderType } from './types';
 
-import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
-
-function TextBox() {
+function TextBox({ blurps, setBlurps, onChange }: { blurps: Blurp[], setBlurps: Dispatch<SetStateAction<Blurp[]>>, onChange: React.FunctionComponent }) {
     const [value, setValue] = useState<string>('')
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -17,18 +19,31 @@ function TextBox() {
         setValue(event.target.value);
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && textareaRef.current?.value) {
+            e.preventDefault();
+            const newBlurp: Blurp = {
+                id: blurps.length + 1,
+                source: BlurpSenderType.User,
+                message: textareaRef.current?.value
+            }
+            console.log(newBlurp)
+            console.log(blurps.length)
+            setBlurps([...blurps, newBlurp]);
+            console.log(blurps)
+            onChange(e);
+            setValue('');
+        }
+    }
+
     return (
         <textarea
             ref={textareaRef}
             value={value}
             onChange={handleChange}
-            style={{
-                // resize: 'none', // Prevent manual resizing
-                // overflowY: "scroll",
-                // paddingRight: "17px", /* Increase/decrease this value for cross-browser compatibility */
-                // boxSizing: "content-box" /* So the width will be 100% + 17px */
-            }}
-            className="w-full border border-gray-300 p-2 rounded-lg drop-shadow-2xl h-full box-content  overflow-hidden resize-none"
+            className="w-9/12 border border-gray-300 p-2 rounded-lg drop-shadow-2xl h-full box-content overflow-hidden resize-none absolute bottom-8"
+            placeholder="Message Hal..."
+            onKeyDown={handleKeyDown}
         />
     );
 }
