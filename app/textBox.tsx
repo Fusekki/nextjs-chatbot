@@ -4,7 +4,7 @@ import React, {
 } from 'react';
 import { Blurp, BlurpSenderType } from './types';
 
-function TextBox({ blurps, setBlurps, onChange }: { blurps: Blurp[], setBlurps: Dispatch<SetStateAction<Blurp[]>>, onChange: React.FunctionComponent }) {
+function TextBox({ blurps, setBlurps, onChange }: { blurps: Blurp[], setBlurps: Dispatch<SetStateAction<Blurp[]>>, onChange: () => void }) {
     const [value, setValue] = useState<string>('')
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -31,7 +31,7 @@ function TextBox({ blurps, setBlurps, onChange }: { blurps: Blurp[], setBlurps: 
             console.log(blurps.length)
             setBlurps([...blurps, newBlurp]);
             console.log(blurps)
-            onChange(e);
+            onChange();
             setValue('');
         }
     }

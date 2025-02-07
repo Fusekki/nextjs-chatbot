@@ -18,14 +18,14 @@ const Dashboard = () => {
 
     return (
         <div className="h-dvh">
-            <h1 className="font-bold text-3xl text-x1/8 mx-2">Hal 9000</h1>
-            <div style={{ height: 'calc(100% - 36px)' }} className="flex flex-col items-center justify-center">
-                <div className="flex flex-col mx-auto justify-between w-9/12 items-center space-y-32">
-                    <div className="text-2xl font-medium">
+            <h1 className="font-bold text-3xl text-x1/8 mx-2">AI Chatbot</h1>
+            <div style={{ height: 'calc(100% - 150px)' }} className="flex flex-col items-center justify-end">
+                {/* <div className="flex flex-col mx-auto w-9/12 items-center space-y-32 bg-blue-200"> */}
+                {/*                    <div className="text-2xl font-medium">
                         <h2 className=""> Good {timeOfDay}! May I help you?</h2>
-                    </div>
-                    <Conversation />
-                </div>
+                    </div> */}
+                <Conversation />
+                {/* </div> */}
             </div>
         </div>
     );
