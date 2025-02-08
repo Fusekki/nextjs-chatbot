@@ -20,18 +20,24 @@ function TextBox({ blurps, setBlurps, onChange }: { blurps: Blurp[], setBlurps: 
     };
 
     const handleKeyDown = (e) => {
-        if (e.key === 'Enter' && textareaRef.current?.value) {
+        // if (e.key === 'Enter' && textareaRef.current?.value) {
+        if (e.key === 'Enter') {
+            // console.log(textareaRef.current?.value.length);
             e.preventDefault();
-            const newBlurp: Blurp = {
-                id: blurps.length + 1,
-                source: BlurpSenderType.User,
-                message: textareaRef.current?.value
+            const textWithoutWhitespace = textareaRef.current!.value.replace(/\s/g, '');
+            // console.log(textWithoutWhitespace.length)
+            if (textWithoutWhitespace.length > 0) {
+                const newBlurp: Blurp = {
+                    id: blurps.length + 1,
+                    source: BlurpSenderType.User,
+                    message: textareaRef.current!.value
+                }
+                // console.log(newBlurp)
+                // console.log(blurps.length)
+                setBlurps([...blurps, newBlurp]);
+                // console.log(blurps)
+                onChange();
             }
-            console.log(newBlurp)
-            console.log(blurps.length)
-            setBlurps([...blurps, newBlurp]);
-            console.log(blurps)
-            onChange();
             setValue('');
         }
     }

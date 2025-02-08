@@ -54,7 +54,6 @@ const Conversation = () => {
         setTimeout(() => {
             if (conversationAreaRef.current && conversationAreaRef.current.scrollHeight !== undefined) {
                 conversationAreaRef.current.scrollTop = conversationAreaRef.current.scrollHeight;
-                console.log('here!!')
                 typingAnimation = true;
                 console.log(typingAnimation)
             }
@@ -87,16 +86,16 @@ const Conversation = () => {
 
     return (
         <>
-            <div className="message-box w-full flex flex-col py-3 overflow-y-auto bg-red-300"
+            <div className="message-box flex flex-col w-<5/7> overflow-y-auto  px-8 w-full h-full justify-end"
                 ref={conversationAreaRef}
-                style={{
-                    // maxHeight: '520px',
-                    bottom: '120px',
-                    width: '100vh',
-                    overflowY: 'auto',
-                    marginTop: '10px'
-                }}
+            // style={{
+            //     // maxHeight: '520px',
+            //     // bottom: '120px',
+            //     // overflowY: 'auto',
+            //     // marginTop: '10px'
+            // }}
             >
+                {/* <div className='lala flex flex-col w-[95%] bg-slate-200  mx-auto h-full'> */}
                 {blurps.map(m => (
                     m.source === "bot" ? (
                         <div
@@ -113,6 +112,7 @@ const Conversation = () => {
 
                 ))}
                 {typingAnimation && (<div className="inline-block self-start relative bg-green-300 mxy-1.5 px-4 py-2 rounded-3xl typing-animation w-[75px] h-[40px]"></div>)}
+                {/* </div> */}
             </div>
             <div className="w-full flex justify-center items-end">
                 <TextBox setBlurps={setBlurps} blurps={blurps} onChange={scrollToBottom} />
