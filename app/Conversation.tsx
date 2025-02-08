@@ -3,7 +3,6 @@
 import { useState, useRef } from 'react';
 import { Blurp, BlurpSenderType } from './types';
 import TextBox from "./textBox";
-import { Truculenta } from 'next/font/google';
 
 const Conversation = () => {
 
@@ -44,7 +43,7 @@ const Conversation = () => {
         // },
     ];
 
-    console.log(time);
+    // console.log(time);
     const [blurps, setBlurps] = useState<Array<Blurp>>(initialBlurps);
     const conversationAreaRef = useRef<HTMLDivElement | null>(null);
 
@@ -55,33 +54,11 @@ const Conversation = () => {
             if (conversationAreaRef.current && conversationAreaRef.current.scrollHeight !== undefined) {
                 conversationAreaRef.current.scrollTop = conversationAreaRef.current.scrollHeight;
                 typingAnimation = true;
-                console.log(typingAnimation)
+                console.log('hgere!')
+                console.log(blurps)
+                // console.log(typingAnimation)
             }
         }, 0)
-    }
-
-    async function sendMessage(message: string) {
-        console.log('sending message:', message);
-
-        // const response = await fetch(process.env.NEXT_PUBLIC_SITE_URL + '/api/users/2/cart', {
-        //     method: 'POST',
-        //     body: JSON.stringify({ productId }),
-        //     headers: {
-        //         contentType: 'application/json'
-        //     }
-        // });
-        // const updatedCartProducts = await response.json();
-        // console.log('Updated cart products:', updatedCartProducts);
-
-        const newMessage: Blurp = {
-            id: blurps.length + 1,
-            source: BlurpSenderType.User,
-            message: message
-        }
-        setBlurps(prevMessages => prevMessages.concat(newMessage));
-        console.log(blurps)
-        // typingAnimation = true;
-
     }
 
     return (

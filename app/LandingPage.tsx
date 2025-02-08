@@ -1,6 +1,6 @@
 import Conversation from './Conversation';
 
-const Dashboard = () => {
+const LandingPage = () => {
 
     const getTimeOfDay = () => {
         const now = new Date();
@@ -31,4 +31,4 @@ const Dashboard = () => {
     );
 }
 
-export default Dashboard;
+export default LandingPage;
