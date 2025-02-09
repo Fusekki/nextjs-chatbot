@@ -4,7 +4,7 @@ export enum BlurpSenderType {
 }
 
 export type Blurp = {
-    id: number;
+    id: string;
     source: BlurpSenderType;
     message: string;
 }
