@@ -3,9 +3,10 @@
 import React, {
     useState, useEffect, useRef, ChangeEvent, Dispatch, SetStateAction
 } from 'react';
-import { Blurp, BlurpSenderType } from './types';
-import { timeOfDay } from './utility';
-import { v4 as uuidv4 } from 'uuid';
+import { Blurp, BlurpSenderType } from '../types';
+import { timeOfDay } from '../utility';
+import { mongoid } from 'mongoid-js';
+
 function TextBox({ blurps, setBlurps, onChange, onStateChange }: { blurps: Blurp[], setBlurps: Dispatch<SetStateAction<Blurp[]>>, onChange: () => void, onStateChange: (newState: Blurp) => void }) {
     const initialBlurps: Blurp[] = [
         {
@@ -37,7 +38,7 @@ function TextBox({ blurps, setBlurps, onChange, onStateChange }: { blurps: Blurp
             if (textWithoutWhitespace.length > 0) {
                 const messageText = textareaRef.current!.value
                 const newBlurp: Blurp = {
-                    id: uuidv4(),
+                    id: mongoid(),
                     source: BlurpSenderType.User,
                     message: messageText
                 }
@@ -61,7 +62,7 @@ function TextBox({ blurps, setBlurps, onChange, onStateChange }: { blurps: Blurp
         await response.json()
             .then((msg) => {
                 const newMessage: Blurp = {
-                    id: uuidv4(),
+                    id: mongoid(),
                     source: BlurpSenderType.Bot,
                     message: msg
                 }

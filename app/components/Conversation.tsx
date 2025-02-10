@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
-import { Blurp, BlurpSenderType } from './types';
+import { Blurp, BlurpSenderType } from '../types';
 import TextBox from "./textBox";
-import { timeOfDay } from './utility';
-import { v4 as uuidv4 } from 'uuid';
+import { timeOfDay } from '../utility';
+import { mongoid } from 'mongoid-js';
 
 const Conversation = () => {
 
     const initialBlurps: Blurp[] = [
         {
-            id: uuidv4(),
+            id: mongoid(),
             source: BlurpSenderType.Bot,
             message: `Good ${timeOfDay}! May I help you?`
         }
@@ -32,6 +32,7 @@ const Conversation = () => {
 
     const onStateChange = (newState: Blurp) => {
         setBlurps([...blurps, newState])
+        console.log(newState)
         if (newState.source === BlurpSenderType.User) {
             setTyping(true);
             setTimeout(() => {
@@ -47,24 +48,22 @@ const Conversation = () => {
             <div className="message-box flex flex-col w-<5/7> overflow-y-auto  px-8 w-full h-full justify-end"
                 ref={conversationAreaRef}
             >
-                {/* <div className='lala flex flex-col w-[95%] bg-slate-200  mx-auto h-full'> */}
                 {blurps.map(m => (
                     m.source === "bot" ? (
                         <div
                             key={m.id}
-                            className="inline-block self-start relative bg-green-300 mxy-1.5 px-4 py-2 my-2 rounded-3xl"
+                            className="inline-block self-start relative bg-green-300 mxy-1.5 px-4 py-2 my-2 rounded-3xl max-w-3xl"
                         >{m.message}</div>
                     ) :
                         (
                             <div
                                 key={m.id}
-                                className="inline-block self-end relative bg-blue-300 mxy-1.5 px-4 py-2 my-2 rounded-3xl"
+                                className="inline-block self-end relative bg-blue-300 mxy-1.5 px-4 py-2 my-2 rounded-3xl max-w-3xl"
                             >{m.message}</div>
                         )
 
                 ))}
                 {typing && (<div className="inline-block self-start relative bg-green-300 mxy-1.5 px-4 py-2 rounded-3xl typing-animation w-[75px] h-[40px]"></div>)}
-                {/* </div> */}
             </div>
             <div className="w-full flex justify-center items-end">
                 <TextBox setBlurps={setBlurps} blurps={blurps} onChange={scrollToBottom} onStateChange={onStateChange} />
