@@ -36,22 +36,26 @@ function TextBox({ blurps, setBlurps, onChange, onStateChange }: { blurps: Blurp
             e.preventDefault();
             const textWithoutWhitespace = textareaRef.current!.value.replace(/\s/g, '');
             if (textWithoutWhitespace.length > 0) {
-                const messageText = textareaRef.current!.value
-                const newBlurp: Blurp = {
-                    id: mongoid(),
-                    source: BlurpSenderType.User,
-                    message: messageText
-                }
-                setLocalState([...blurps, newBlurp]);
-                onStateChange(newBlurp)
-                onChange();
-                sendMessage(messageText)
+                composeBlurp();
             }
-            setText('');
         }
     }
 
-    async function sendMessage(message: string) {
+    const composeBlurp = () => {
+        const messageText = textareaRef.current!.value
+        const newBlurp: Blurp = {
+            id: mongoid(),
+            source: BlurpSenderType.User,
+            message: messageText
+        }
+        setLocalState([...blurps, newBlurp]);
+        onStateChange(newBlurp)
+        onChange();
+        sendBlurp(messageText)
+        setText('');
+    }
+
+    async function sendBlurp(message: string) {
         const response = await fetch(process.env.NEXT_PUBLIC_SITE_URL + '/api/chat', {
             method: 'POST',
             body: JSON.stringify({ message }),
@@ -74,14 +78,21 @@ function TextBox({ blurps, setBlurps, onChange, onStateChange }: { blurps: Blurp
 
 
     return (
-        <textarea
-            ref={textareaRef}
-            value={text}
-            onChange={handleChange}
-            className="w-9/12 border border-gray-300 p-2 rounded-lg drop-shadow-2xl h-full box-content overflow-hidden resize-none absolute bottom-8"
-            placeholder="Message Hal..."
-            onKeyDown={handleKeyDown}
-        />
+        <>
+            <textarea
+                ref={textareaRef}
+                value={text}
+                onChange={handleChange}
+                className="w-9/12 border border-gray-300 p-2 rounded-lg drop-shadow-2xl h-full box-content overflow-hidden resize-none absolute bottom-8"
+                placeholder="Message Hal..."
+                onKeyDown={handleKeyDown}
+            />
+            <button
+                className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded h-12 absolute bottom-4 right-5 overflow-y-auto"
+            >
+                <span className="material-icons material-symbols-outlined" onClick={composeBlurp}>arrow_upward</span>
+            </button>
+        </>
     );
 
 }

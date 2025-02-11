@@ -67,11 +67,6 @@ const Conversation = () => {
             </div>
             <div className="w-full flex justify-center items-end">
                 <TextBox setBlurps={setBlurps} blurps={blurps} onChange={scrollToBottom} onStateChange={onStateChange} />
-                <button
-                    className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded h-12 absolute bottom-4 right-5 overflow-y-auto"
-                >
-                    <span className="material-icons material-symbols-outlined">arrow_upward</span>
-                </button>
             </div>
         </>
     )
