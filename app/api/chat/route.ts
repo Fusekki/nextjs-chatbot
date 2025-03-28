@@ -20,7 +20,6 @@ type Message = z.infer<typeof Message>;
 export async function POST(request: NextRequest) {
     console.log('in POST')
     const body: ChatBody = await request.json();
-    // console.log(Message.safeParse(body));
     try {
       Message.parse(body);
     } catch(e) {
