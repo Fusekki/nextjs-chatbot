@@ -4,13 +4,14 @@ import React, { useState, useRef } from 'react';
 import { Blurp, BlurpSenderType } from '../types';
 import TextBox from "./textBox";
 import { timeOfDay } from '../utility';
-import { mongoid } from 'mongoid-js';
+import { ObjectId } from 'bson';
+import Box from '@mui/material/Box';
 
 const Conversation = () => {
 
     const initialBlurps: Blurp[] = [
         {
-            id: mongoid(),
+            id: new ObjectId().toString(),
             source: BlurpSenderType.Bot,
             message: `Good ${timeOfDay}! May I help you?`
         }
@@ -45,22 +46,34 @@ const Conversation = () => {
 
     return (
         <>
-            <div className="message-box flex flex-col w-<5/7> overflow-y-auto  px-8 w-full h-full justify-end"
+            <div className="message-box flex flex-col  overflow-y-auto w-[85%]  h-[calc(100% - 45px] mb-[4rem] justify-end"
                 ref={conversationAreaRef}
             >
                 {blurps.map(m => (
-                    m.source === "bot" ? (
-                        <div
-                            key={m.id}
-                            className="inline-block self-start relative bg-green-300 mxy-1.5 px-4 py-2 my-2 rounded-3xl max-w-3xl"
-                        >{m.message}</div>
-                    ) :
-                        (
-                            <div
-                                key={m.id}
-                                className="inline-block self-end relative bg-blue-300 mxy-1.5 px-4 py-2 my-2 rounded-3xl max-w-3xl"
-                            >{m.message}</div>
-                        )
+                            <Box key={m.id}
+                                sx={{
+                                    padding: 1,
+                                    borderRadius: '15px',
+                                    maxWidth: '65%',
+                                    backgroundColor: m.source === 'bot' ? 'green' : 'blue',
+                                    alignSelf: m.source === 'bot' ? 'flex-start' : 'flex-end',
+                                    margin: '5px',
+                                }}
+                                >
+                                {m.message}
+                                </Box>
+                //     m.source === "bot" ? (
+                //         <div
+                //             key={m.id}
+                //             className="inline-block self-start relative bg-green-300 mxy-1.5 px-4 py-2 my-2 rounded-3xl max-w-3xl"
+                //         >{m.message}</div>
+                //     ) :
+                //         (
+                //             <div
+                //                 key={m.id}
+                //                 className="inline-block self-end relative bg-blue-300 mxy-1.5 px-4 py-2 my-2 rounded-3xl max-w-3xl"
+                //             >{m.message}</div>
+                //         )
 
                 ))}
                 {typing && (<div className="inline-block self-start relative bg-green-300 mxy-1.5 px-4 py-2 rounded-3xl typing-animation w-[75px] h-[40px]"></div>)}

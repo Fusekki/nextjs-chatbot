@@ -5,7 +5,7 @@ import React, {
 } from 'react';
 import { Blurp, BlurpSenderType } from '../types';
 import { timeOfDay } from '../utility';
-import { mongoid } from 'mongoid-js';
+import { ObjectId } from 'bson';
 
 function TextBox({ blurps, setBlurps, onChange, onStateChange }: { blurps: Blurp[], setBlurps: Dispatch<SetStateAction<Blurp[]>>, onChange: () => void, onStateChange: (newState: Blurp) => void }) {
     const initialBlurps: Blurp[] = [
@@ -44,7 +44,7 @@ function TextBox({ blurps, setBlurps, onChange, onStateChange }: { blurps: Blurp
     const composeBlurp = () => {
         const messageText = textareaRef.current!.value
         const newBlurp: Blurp = {
-            id: mongoid(),
+            id: new ObjectId().toString(),
             source: BlurpSenderType.User,
             message: messageText
         }
@@ -66,7 +66,7 @@ function TextBox({ blurps, setBlurps, onChange, onStateChange }: { blurps: Blurp
         await response.json()
             .then((msg) => {
                 const newMessage: Blurp = {
-                    id: mongoid(),
+                    id: new ObjectId().toString(),
                     source: BlurpSenderType.Bot,
                     message: msg
                 }
@@ -76,23 +76,22 @@ function TextBox({ blurps, setBlurps, onChange, onStateChange }: { blurps: Blurp
             })
     }
 
-
     return (
-        <>
+        <div className="flex w-full justify-center items-center align-center mx-auto ">
             <textarea
                 ref={textareaRef}
                 value={text}
                 onChange={handleChange}
-                className="w-9/12 border border-gray-300 p-2 rounded-lg drop-shadow-2xl h-full box-content overflow-hidden resize-none absolute bottom-8"
+                className="text-black w-9/12 border border-gray-300 p-2 rounded-lg drop-shadow-2xl h-full box-content overflow-hidden resize-none"
                 placeholder="Message Hal..."
                 onKeyDown={handleKeyDown}
             />
             <button
-                className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded h-12 absolute bottom-4 right-5 overflow-y-auto"
+                className="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 ml-[10px] rounded h-12 overflow-y-auto"
             >
                 <span className="material-icons material-symbols-outlined" onClick={composeBlurp}>arrow_upward</span>
             </button>
-        </>
+        </div>
     );
 
 }

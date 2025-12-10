@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     const { message } = body;
     const prompt = message;
 
-    const result = await genAI.models.generateContent({model: 'gemini-2.0-flash-001',contents: prompt});
+    const result = await genAI.models.generateContent({model: 'gemini-2.5-flash',contents: prompt});
     const generatedText = result?.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
     return new Response(JSON.stringify(generatedText), {
